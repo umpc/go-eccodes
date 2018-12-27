@@ -12,7 +12,6 @@ import (
 
 func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int) (Ccodes_grib_iterator, error) {
   var err C.int
-  defer C.free(unsafe.Pointer(&err))
 
   ccodes_grib_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), (*C.int)(&err)))
   if int(err) != 0 {
