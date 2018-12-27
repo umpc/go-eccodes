@@ -87,7 +87,7 @@ func (m *message) Iterator() (Iterator, error) {
 	if err != nil {
 		return nil, err
 	}
-	iteratorStruct := iterator{
+	iteratorStruct := &iterator{
 		iterator: iteratorVal,
 	}
 	return iteratorStruct, nil
