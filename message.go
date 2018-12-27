@@ -75,7 +75,7 @@ type iterator struct {
 }
 
 func (m *message) Iterator() (Iterator, error) {
-	iteratorVal, err := native.Ccodes_grib_iterator_new(m.handle)
+	iteratorVal, err := native.Ccodes_grib_iterator_new(m.handle, 0)
 	if err != nil {
 		return nil, err
 	}
