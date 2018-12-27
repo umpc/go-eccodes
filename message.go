@@ -19,6 +19,8 @@ type Message interface {
 	GetDouble(key string) (float64, error)
 	SetDouble(key string, value float64) error
 
+	NextValue() (latitude float64, longitude float64, value float64, err error)
+
 	Data() (latitudes []float64, longitudes []float64, values []float64, err error)
 	DataUnsafe() (latitudes *Float64ArrayUnsafe, longitudes *Float64ArrayUnsafe, values *Float64ArrayUnsafe, err error)
 
@@ -61,6 +63,43 @@ func (m *message) GetDouble(key string) (float64, error) {
 
 func (m *message) SetDouble(key string, value float64) error {
 	return native.Ccodes_set_double(m.handle, key, value)
+}
+
+type Iterator interface {
+	Next() (latitude float64, longitude float64, value float64, err error)
+	Close() error
+}
+
+type iterator struct {
+	iterator native.Ccodes_grib_iterator
+}
+
+func (m *message) Iterator() (Iterator, error) {
+	iteratorVal, err := native.Ccodes_grib_iterator_new(m.handle)
+	if err != nil {
+		return nil, err
+	}
+	iteratorStruct := iterator{
+		iterator: iteratorVal,
+	}
+	return iteratorStruct, nil
+}
+
+func (i *iterator) Next() (latitude float64, longitude float64, value float64, err error) {
+	cLatitude := (*C.double)(unsafe.Pointer(&latitude))
+	cLongitude := (*C.double)(unsafe.Pointer(&longitude))
+	cValue := (*C.double)(unsafe.Pointer(&value))
+
+	res := native.Ccodes_grib_iterator_next(i.iterator, cLatitude, cLongitude, cValue)
+	if int(res) != 0 {
+		return 0, 0, 0, errors.New(Cgrib_get_error_message(int(res)))
+	}
+
+	return latitude, longitude, value, nil
+}
+
+func (i *iterator) Close() error {
+	return native.Ccodes_grib_iterator_delete(i.iterator)
 }
 
 func (m *message) Data() (latitudes []float64, longitudes []float64, values []float64, err error) {
