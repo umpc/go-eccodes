@@ -11,10 +11,10 @@ import (
 )
 
 func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int) (Ccodes_iterator, error) {
-  err := C.int(0)
-  ccodes_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), (*C.int)(&err)))
-  if int(err) != 0 {
-    return ccodes_iterator, errors.New(Cgrib_get_error_message(int(err)))
+  res := C.int(0)
+  ccodes_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), (*C.int)(&res)))
+  if int(res) != 0 {
+    return ccodes_iterator, errors.New(Cgrib_get_error_message(int(res)))
   }
   return ccodes_iterator, nil
 }
