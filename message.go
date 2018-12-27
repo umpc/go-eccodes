@@ -65,13 +65,21 @@ func (m *message) SetDouble(key string, value float64) error {
 	return native.Ccodes_set_double(m.handle, key, value)
 }
 
+type iterator struct {
+	iterator native.Ccodes_grib_iterator
+}
+
+func (i *iterator) Next() (latitude float64, longitude float64, value float64, err error) {
+	return native.Ccodes_grib_iterator_next(i.iterator)
+}
+
+func (i *iterator) Close() error {
+	return native.Ccodes_grib_iterator_delete(i.iterator)
+}
+
 type Iterator interface {
 	Next() (latitude float64, longitude float64, value float64, err error)
 	Close() error
-}
-
-type iterator struct {
-	iterator native.Ccodes_grib_iterator
 }
 
 func (m *message) Iterator() (Iterator, error) {
@@ -83,14 +91,6 @@ func (m *message) Iterator() (Iterator, error) {
 		iterator: iteratorVal,
 	}
 	return iteratorStruct, nil
-}
-
-func (i *iterator) Next() (latitude float64, longitude float64, value float64, err error) {
-	return native.Ccodes_grib_iterator_next(i.iterator)
-}
-
-func (i *iterator) Close() error {
-	return native.Ccodes_grib_iterator_delete(i.iterator)
 }
 
 func (m *message) Data() (latitudes []float64, longitudes []float64, values []float64, err error) {
