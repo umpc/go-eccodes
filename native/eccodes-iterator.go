@@ -27,7 +27,7 @@ func Ccodes_grib_iterator_next(kiter Ccodes_grib_iterator, latitude *C.double, l
 }
 
 func Ccodes_grib_iterator_delete(kiter Ccodes_grib_iterator) error {
-	err := C.codes_grib_iterator_delete((*C.codes_grib_iterator)(kiter))
+	err := C.codes_grib_iterator_delete((*C.codes_iterator)(kiter))
 	if err != 0 {
 		return errors.New(Cgrib_get_error_message(int(err)))
 	}
