@@ -11,14 +11,15 @@ import (
 )
 
 func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int, err error) (Ccodes_grib_iterator, error) {
-  var errInt C.int
-  defer C.free(unsafe.Pointer(&errInt))
+  var err C.int
+  defer C.free(unsafe.Pointer(&err))
 
-  ccodes_grib_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), &errInt))
-  if int(errInt) == 0 {
-    return ccodes_grib_iterator, nil
+  ccodes_grib_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), (*C.int)(&err)))
+  if int(err) != 0 {
+    return ccodes_grib_iterator, errors.New(Cgrib_get_error_message(int(err)))
   }
-  return ccodes_grib_iterator, errors.New("int(errInt) != 0")
+
+  return ccodes_grib_iterator, nil
 }
 
 func Ccodes_grib_iterator_next(kiter Ccodes_grib_iterator) int {
