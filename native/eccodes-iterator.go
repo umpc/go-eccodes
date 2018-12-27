@@ -11,12 +11,12 @@ import (
 )
 
 func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int) (Ccodes_iterator, error) {
-  res := C.int(0)
-  ccodes_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), (*C.int)(&res)))
-  if int(res) != 0 {
-    return ccodes_iterator, errors.New(Cgrib_get_error_message(int(res)))
-  }
-  return ccodes_iterator, nil
+	res := C.int(0)
+	ccodes_iterator := unsafe.Pointer(C.codes_grib_iterator_new((*C.codes_handle)(handle), C.ulong(Culong(flags)), (*C.int)(&res)))
+	if int(res) != 0 {
+		return ccodes_iterator, errors.New(Cgrib_get_error_message(int(res)))
+	}
+	return ccodes_iterator, nil
 }
 
 func Ccodes_grib_iterator_next(kiter Ccodes_iterator) (latitude float64, longitude float64, value float64, err error) {
