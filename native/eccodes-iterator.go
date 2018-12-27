@@ -28,7 +28,7 @@ func Ccodes_grib_iterator_next(kiter Ccodes_iterator) (latitude float64, longitu
 		(*C.double)(unsafe.Pointer(&longitude)),
 		(*C.double)(unsafe.Pointer(&value)),
 	))
-	if res != 0 {
+	if res < 0 {
 		return 0, 0, 0, errors.New(Cgrib_get_error_message(res))
 	}
 	return latitude, longitude, value, nil
