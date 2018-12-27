@@ -19,7 +19,7 @@ type Message interface {
 	GetDouble(key string) (float64, error)
 	SetDouble(key string, value float64) error
 
-	NextValue() (latitude float64, longitude float64, value float64, err error)
+	Iterator() (Iterator, error)
 
 	Data() (latitudes []float64, longitudes []float64, values []float64, err error)
 	DataUnsafe() (latitudes *Float64ArrayUnsafe, longitudes *Float64ArrayUnsafe, values *Float64ArrayUnsafe, err error)
