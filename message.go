@@ -86,16 +86,7 @@ func (m *message) Iterator() (Iterator, error) {
 }
 
 func (i *iterator) Next() (latitude float64, longitude float64, value float64, err error) {
-	cLatitude := (*C.double)(unsafe.Pointer(&latitude))
-	cLongitude := (*C.double)(unsafe.Pointer(&longitude))
-	cValue := (*C.double)(unsafe.Pointer(&value))
-
-	res := native.Ccodes_grib_iterator_next(i.iterator, cLatitude, cLongitude, cValue)
-	if int(res) != 0 {
-		return 0, 0, 0, errors.New(Cgrib_get_error_message(int(res)))
-	}
-
-	return latitude, longitude, value, nil
+	return native.Ccodes_grib_iterator_next(i.iterator)
 }
 
 func (i *iterator) Close() error {
