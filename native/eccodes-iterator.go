@@ -22,8 +22,8 @@ func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int, err error) (Ccode
   return ccodes_grib_iterator, nil
 }
 
-func Ccodes_grib_iterator_next(kiter Ccodes_grib_iterator) int {
-	return int(C.codes_grib_iterator_next((*C.codes_grib_iterator)(kiter)))
+func Ccodes_grib_iterator_next(kiter Ccodes_grib_iterator, latitude *C.double, longitude *C.double, value *C.double) int {
+	return int(C.codes_grib_iterator_next((*C.codes_grib_iterator)(kiter), (*C.double)(latitude), (*C.double)(longitude), (*C.double)(value))
 }
 
 func Ccodes_grib_iterator_get_name(kiter Ccodes_grib_iterator) string {
