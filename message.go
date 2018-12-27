@@ -66,7 +66,7 @@ func (m *message) SetDouble(key string, value float64) error {
 }
 
 type iterator struct {
-	iterator native.Ccodes_grib_iterator
+	iterator native.Ccodes_iterator
 }
 
 func (i *iterator) Next() (latitude float64, longitude float64, value float64, err error) {
