@@ -10,7 +10,7 @@ import (
 	"github.com/amsokol/go-errors"
 )
 
-func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int, err error) (Ccodes_grib_iterator, error) {
+func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int) (Ccodes_grib_iterator, error) {
   var err C.int
   defer C.free(unsafe.Pointer(&err))
 
