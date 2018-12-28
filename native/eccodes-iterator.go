@@ -6,6 +6,7 @@ package native
 import "C"
 import (
 	"unsafe"
+	"io"
 
 	"github.com/amsokol/go-errors"
 )
