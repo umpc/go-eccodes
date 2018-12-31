@@ -30,12 +30,12 @@ func Ccodes_grib_iterator_next(kiter Ccodes_iterator, latitude *float64, longitu
 		(*C.double)(unsafe.Pointer(value)),
 	))
 	if res < 0 {
-		return latitude, longitude, value, errors.New(Cgrib_get_error_message(res))
+		return errors.New(Cgrib_get_error_message(res))
 	}
 	if res == 0 {
-		return latitude, longitude, value, io.EOF
+		return io.EOF
 	}
-	return latitude, longitude, value, nil
+	return nil
 }
 
 func Ccodes_grib_iterator_delete(kiter Ccodes_iterator) error {
