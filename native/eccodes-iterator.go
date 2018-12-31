@@ -22,12 +22,12 @@ func Ccodes_grib_iterator_new(handle Ccodes_handle, flags int) (Ccodes_iterator,
 	return ccodes_iterator, nil
 }
 
-func Ccodes_grib_iterator_next(kiter Ccodes_iterator) (latitude float64, longitude float64, value float64, err error) {
+func Ccodes_grib_iterator_next(kiter Ccodes_iterator, latitude *float64, longitude *float64, value *float64) error {
 	res := int(C.codes_grib_iterator_next(
 		(*C.codes_iterator)(kiter),
-		(*C.double)(unsafe.Pointer(&latitude)),
-		(*C.double)(unsafe.Pointer(&longitude)),
-		(*C.double)(unsafe.Pointer(&value)),
+		(*C.double)(unsafe.Pointer(latitude)),
+		(*C.double)(unsafe.Pointer(longitude)),
+		(*C.double)(unsafe.Pointer(value)),
 	))
 	if res < 0 {
 		return latitude, longitude, value, errors.New(Cgrib_get_error_message(res))
