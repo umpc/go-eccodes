@@ -78,7 +78,7 @@ func (i *iterator) Close() error {
 }
 
 type Iterator interface {
-	Next() (latitude float64, longitude float64, value float64, err error)
+	Next(latitude *float64, longitude *float64, value *float64) error
 	Close() error
 }
 
