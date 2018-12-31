@@ -69,8 +69,8 @@ type iterator struct {
 	iterator native.Ccodes_iterator
 }
 
-func (i *iterator) Next() (latitude float64, longitude float64, value float64, err error) {
-	return native.Ccodes_grib_iterator_next(i.iterator)
+func (i *iterator) Next(latitude *float64, longitude *float64, value *float64) error {
+	return native.Ccodes_grib_iterator_next(i.iterator, latitude, longitude, value)
 }
 
 func (i *iterator) Close() error {
